@@ -65,7 +65,7 @@ def tokenizer(frame):
         tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
         tokenizer.save_pretrained(".\\yelp_price_model")
 
-        print("✅ Model and tokenizer saved to .\yelp_price_model")
+        print("✅ Model and tokenizer saved to .\\yelp_price_model")
         tokens = tokenizer(
             frame["text"].tolist(),
             padding=True,
@@ -114,9 +114,9 @@ def model_trainer(model, train_dataset):
         from transformers import TrainingArguments, Trainer
         if torch.cuda.is_available():
             model = model.to("cuda")
-            print("🚀 Model sent to GPU")
+            print("Model sent to GPU")
         else:
-            print("⚠️ CUDA not available. Training on CPU")
+            print("CUDA not available. Training on CPU")
         training_args = TrainingArguments(
             output_dir=".\\yelp_price_model",
             num_train_epochs=3,

@@ -1,0 +1,10 @@
+--extra-index-url https://download.pytorch.org/whl/cu132
+datasets
+transformers
+pandas
+matplotlib
+seaborn
+rich
+scikit-learn
+torch
+accelerate>=1.1.0

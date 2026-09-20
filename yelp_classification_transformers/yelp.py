@@ -57,7 +57,7 @@ def sigint_handler(signum, frame):
 signal.signal(signal.SIGINT, sigint_handler)
 
 
-def shutup():  # This is for when the console is complaining about something stupid
+def silence():  # This is for when the console is complaining about something petty
     sys._stderr = sys.stderr  # Backup just once
     sys.stderr = open(os.devnull, 'w')
 

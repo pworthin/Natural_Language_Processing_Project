@@ -6,12 +6,12 @@ import scipy
 import sys
 import signal
 import traceback
-import inspect
+#import inspect
 import re
 import random
 
 
-from pprint import pprint
+#from pprint import pprint
 from nltk.corpus import movie_reviews
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.model_selection import train_test_split
@@ -102,8 +102,7 @@ class NLPmodel():
     
     
     def frameset(self):
-        #this was originally for framing the data but it does not
-        #appear we will be needing to in this exercise
+        #This was originally for framing the data 
         try:
             df = pd.DataFrame({
                     'review': self.reviews,
