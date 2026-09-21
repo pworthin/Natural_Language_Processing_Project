@@ -1,16 +1,11 @@
 
-import sys
-from rich.console import Console
-from rich.status import Status
+from helper import Console_Build
 
-console = Console()
+console = Console_Build()
 
-import signal
-import traceback
-import os
 
 import pandas as pd
-from rich.progress import Progress, SpinnerColumn, TextColumn
+
 import requests
 from sklearn.preprocessing import LabelEncoder
 
@@ -18,52 +13,13 @@ from transformers import pipeline, AutoTokenizer
 import seaborn
 import matplotlib
 import torch
-
+from helper import error_msg, terminate_signal
 from datasets import load_dataset, logging
 from torch.utils.data import Dataset
 from transformers import AutoModelForSequenceClassification
 from transformers import Trainer
 
-##################### Setup Functions #####################
-
-#print("\n\nLoading Program. Please wait...")
-
-# This sets the system colors #
-GREEN = '\u001b[92m'
-RED = '\u001b[91m'
-ORANGE = '\u001b[38;5;208m'
-RESET = '\u001b[0m'
-
-
-def error_msg(e):
-    print(f"{RED}Error{RESET}: {ORANGE}{e}{RESET}")
-    traceback.print_exc()
-    sys.exit(1)
-
-
-# Terminates the program on Ctrl+C
-def sigint_handler(signum, frame):
-    print("\nTerminating program...\n")
-    sys.exit(0)
-
-
-signal.signal(signal.SIGINT, sigint_handler)
-
-
-def shutup():  # This is for when the console is complaining about something stupid
-    sys._stderr = sys.stderr  # Backup just once
-    sys.stderr = open(os.devnull, 'w')
-
-
-def restore_sanity():  # This restores error output after being silenced
-    if hasattr(sys, '_stderr'):
-        sys.stderr = sys._stderr  # Restore
-        del sys._stderr
-
-
-#########################################################
-
-
+terminate_signal()
 
 
 def tokenizer(frame):
