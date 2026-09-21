@@ -175,3 +175,7 @@ def analysis_report(frame, output_file="analysis_report.txt", show_plots=True):
         file.write(output.getvalue())
 
     print(f"\n[✓] Report written to {output_file}")
+
+def main():
+    frame = pd.read_csv("samples_cleaned.csv")
+    analysis_report(frame)

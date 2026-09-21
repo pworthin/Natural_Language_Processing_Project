@@ -1,5 +1,5 @@
 
-from helper import (console)
+from helper import console
 
 with console.status("[bold cyan]Loading transformers...", spinner="dots"):
     from transformers import AutoTokenizer, AutoModelForSequenceClassification

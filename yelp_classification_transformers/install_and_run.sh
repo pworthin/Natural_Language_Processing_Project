@@ -8,5 +8,5 @@ echo "Installing requirements..."
 pip install -r requirements.txt
 
 echo "Installation complete."
-#echo "Running program..."
-#python yelp.py
+echo "Running program..."
+python driver.py

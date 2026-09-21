@@ -2,10 +2,11 @@ from helper import(
     console,
     progress,
     hf_silence,
-    execute
+    execute,
+    terminate_signal
    
 )
-
+terminate_signal()
 console.print("Loading program. Please wait...\n")
 
 import pandas as pd
@@ -64,6 +65,7 @@ def main():
     classification(frame)
 
     print('\nTask completed.')
+
     
 
 if __name__ == "__main__":

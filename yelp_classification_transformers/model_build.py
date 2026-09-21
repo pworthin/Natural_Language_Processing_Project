@@ -1,4 +1,3 @@
-from helper import execute
 import pandas as pd
 from sample_trainer import tokenizer, ds_obj, model_trainer
 from sklearn.preprocessing import LabelEncoder
@@ -15,6 +14,3 @@ def main():
     model, train_dataset = ds_obj(tokens, labels)
     model_trainer(model, train_dataset)
 
-  
-if __name__ == '__main__':
-    execute(main)

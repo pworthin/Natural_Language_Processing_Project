@@ -7,5 +7,5 @@ pip install -r requirements.txt
 
 Write-Host "Installation complete"
 
-#Write-Host "Running program..."
-#python yelp.py
+Write-Host "Running program..."
+python driver.py

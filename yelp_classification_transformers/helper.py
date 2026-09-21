@@ -1,11 +1,11 @@
 """
-This is boiler code for different system helper functions frequently used in various project
+This is boiler code for different system helper functions frequently used in various projects
 """
 
 import sys
 import traceback
 import os
-
+import signal
 from huggingface_hub.utils import disable_progress_bars
 from huggingface_hub import logging as hf_logging
 
@@ -41,10 +41,12 @@ def progress(**kwargs):
         TextColumn("[progress.description]{task.description}"),
     )
 
-###---------------------------------##
+
 
 
 ## ---- Hugging Face Options ---- ##
+
+
 def hf_silence(): #This silences Hugging Face log messages
     hf_logging.set_verbosity_error()
     disable_progress_bars()
@@ -70,6 +72,13 @@ def restore_sanity():  # This restores error output after being silenced
         sys.stderr = sys._stderr  # Restore
         del sys._stderr
 
+def sigint_handler(signum, frame):
+    print("\nTerminating program...\n")
+    raise SystemExit(0)
+
+
+def terminate_signal():
+    signal.signal(signal.SIGINT, sigint_handler)
 
 #########################################################
 
