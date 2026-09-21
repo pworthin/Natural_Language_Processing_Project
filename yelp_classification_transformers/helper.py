@@ -5,9 +5,13 @@ This is boiler code for different system helper functions frequently used in var
 import sys
 import traceback
 import os
-import signal
+
+from huggingface_hub.utils import disable_progress_bars
+from huggingface_hub import logging as hf_logging
+
+
 from rich.console import Console
-from rich.status import Status
+
 from rich.progress import (
     Progress as RichProgress,
     SpinnerColumn,
@@ -39,20 +43,22 @@ def progress(**kwargs):
 
 ###---------------------------------##
 
+
+## ---- Hugging Face Options ---- ##
+def hf_silence(): #This silences Hugging Face log messages
+    hf_logging.set_verbosity_error()
+    disable_progress_bars()
+
+
+## -------------------------------##
+
+
 def error_msg(e):
     console.print(f"[red]Error:[/red] [orange1]{e}[/orange1]")
     traceback.print_exc()
     sys.exit(1)
 
 
-# Terminates the program on Ctrl+C
-def sigint_handler(signum, frame):
-    print("\nTerminating program...\n")
-    sys.exit(0)
-
-
-def terminate_signal():
-    signal.signal(signal.SIGINT, sigint_handler)
 
 def silence():  # This is for when the console is complaining about something petty
     sys._stderr = sys.stderr  # Backup just once
@@ -66,3 +72,13 @@ def restore_sanity():  # This restores error output after being silenced
 
 
 #########################################################
+
+
+def execute(func):
+    try:
+        func()
+    except KeyboardInterrupt:
+        print("Terminating program...")
+        raise SystemExit(0)
+    except Exception as e:
+        error_msg(e)
