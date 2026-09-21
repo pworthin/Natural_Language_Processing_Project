@@ -20,7 +20,7 @@ from transformers import Trainer
 
 ##################### Setup Functions #####################
 
-print("\n\nLoading Program. Please wait...")
+#print("\n\nLoading Program. Please wait...")
 
 # This sets the system colors #
 GREEN = '\u001b[92m'

@@ -1,4 +1,5 @@
 import sys
+
 import signal
 import traceback
 import os
@@ -8,7 +9,7 @@ from sample_trainer import tokenizer, ds_obj, model_trainer
 from sklearn.preprocessing import LabelEncoder
 ##################### Setup Functions #####################
 
-print("\n\nLoading Program. Please wait...")
+#print("\n\nLoading Program. Please wait...")
 
 # This sets the system colors #
 GREEN = '\u001b[92m'
@@ -32,7 +33,7 @@ def sigint_handler(signum, frame):
 signal.signal(signal.SIGINT, sigint_handler)
 
 
-def shutup():  # This is for when the console is complaining about something stupid
+def silence():  # This is for when the console is complaining about something petty
     sys._stderr = sys.stderr  # Backup just once
     sys.stderr = open(os.devnull, 'w')
 
