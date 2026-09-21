@@ -65,7 +65,7 @@ def tokenizer(frame):
         tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
         tokenizer.save_pretrained(".\\yelp_price_model")
 
-        print("✅ Model and tokenizer saved to .\\yelp_price_model")
+        print("Model and tokenizer saved to .\\yelp_price_model")
         tokens = tokenizer(
             frame["text"].tolist(),
             padding=True,
