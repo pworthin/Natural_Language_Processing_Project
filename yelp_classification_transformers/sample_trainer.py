@@ -1,4 +1,10 @@
+
 import sys
+from rich.console import Console
+from rich.status import Status
+
+console = Console()
+
 import signal
 import traceback
 import os

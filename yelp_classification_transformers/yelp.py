@@ -1,5 +1,10 @@
 
 import sys
+from rich.console import Console
+from rich.status import Status
+
+console = Console()
+console.print("\nLoading program. Please wait...\n")
 
 import signal
 import traceback
@@ -11,14 +16,15 @@ import requests
 from sklearn.preprocessing import LabelEncoder
 
 from transformers import pipeline, AutoTokenizer
-import seaborn
-import matplotlib
-import torch
+#import seaborn
+#import matplotlib
+#import torch
+with console.status("[bold cyan]Loading datasets...", spinner="dots"):
+    from datasets import load_dataset, logging
+with console.status("[bold cyan]Loading PyTorch", spinner="dots"):    
+    from torch.utils.data import Dataset
 
-from datasets import load_dataset, logging
-from torch.utils.data import Dataset
-
-from sample_trainer import tokenizer, ds_obj, model_trainer
+#from sample_trainer import tokenizer, ds_obj, model_trainer
 
 #####################Packages Installed: #################
 
@@ -91,7 +97,7 @@ def data_prep():
 
         print("[✓] Done loading dataset.")
 
-        #classification(df)
+        classification(df)
         return df
     except requests.exceptions.RequestException as e:
         print(f"{RED}Error{RESET}: {ORANGE}{e}{RESET}")
