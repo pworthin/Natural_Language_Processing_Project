@@ -64,8 +64,9 @@ def ds_obj(tokens, labels):
 
 
 def model_trainer(model, train_dataset):
-    
-    from transformers import TrainingArguments, Trainer
+
+    with console.status("[bold cyan]Preparing Trainer...", spinner="dots"):
+        from transformers import TrainingArguments, Trainer
     if torch.cuda.is_available():
         model = model.to("cuda")
         print("Model sent to GPU")
