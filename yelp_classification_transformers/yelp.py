@@ -37,7 +37,7 @@ def data_prep():
 
         print("[✓] Done loading dataset.")
 
-        classification(df)
+        #classification(df)
         return df
     except requests.exceptions.RequestException as e:
         console.print(f"[red]Error[/red]: [orange1]{e}[/orange1]")
