@@ -7,8 +7,9 @@ import traceback
 import os
 import signal
 
-rich = require("rich")
+from bootstrap import require
 
+rich = require("rich")
 from rich.console import Console
 
 from rich.progress import (
@@ -30,7 +31,7 @@ ORANGE = '\u001b[38;5;208m'
 RESET = '\u001b[0m'
 '''
 
-# -- Functions from "Rich" Library --#
+# -- -------Functions from "Rich" Library ---------------#
 
 console = Console()
 
@@ -41,13 +42,11 @@ def progress(**kwargs):
     )
 
 
-
-
-
 ## -------------Console Message Handling-----------------------##
 
 def mod_not_found(mod):
-    console.print(f"[red]ERROR[/red]: [orange1]{mod} was not found. Check the requirements.txt to be sure it has been included[/orange1]")
+    console.print(f"[red]ERROR[/red]: [orange1]{mod} was not found. \
+                  Check the requirements.txt to be sure it has been included[/orange1]")
 
 def error_msg(e):
     console.print(f"[red]Error:[/red] [orange1]{e}[/orange1]")
@@ -109,8 +108,7 @@ def silencer(*args):
             case "hf":
                 hf_silence()
             case "ds_logger":
-                if logging is not None:
-                    logging.set_verbosity_error()
+                ds_logger_silence()
             case "console":
                 silence() #Remember to restore_sanity()!
 
@@ -129,29 +127,3 @@ def execute(func):
         error_msg(e)
 
 
-#-------Module Check--------#
-
-#This ensures mandatory libaries such as Rich are already installed in any case
-
-
-def require(module, package=None):
-    import importlib
-    import subprocess
-
-    package = package or module
-
-    try:
-        return importlib.import_module(module)
-
-    except ModuleNotFoundError:
-        print(f"[!] Missing '{module}'. Installing...")
-
-        subprocess.check_call([
-            sys.executable,
-            "-m",
-            "pip",
-            "install",
-            package
-        ])
-
-        return importlib.import_module(module)
