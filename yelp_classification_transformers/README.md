@@ -24,14 +24,14 @@ pip install -r requirements.txt
 ### Bash / Linux / macOS
 
 ```bash
-chmod +x install_and_run_week9.sh
-./install_and_run_week9.sh
+chmod +x install_and_run.sh
+./install_and_run.sh
 ```
 
 ### Windows (PowerShell)
 
 ```powershell
-.\install_and_run_week9.ps1
+.\install_and_run.ps1
 ```
 
 ---

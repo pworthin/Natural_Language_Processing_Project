@@ -7,7 +7,7 @@ import subprocess
 import importlib
 
 
-#This ensures mandatory libaries such as Rich are already installed in any case
+#This ensures mandatory libraries such as Rich are already installed in any case
 def require(import_name, pip_name=None):
     pip_name = pip_name or import_name
 

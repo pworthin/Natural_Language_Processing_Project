@@ -3,12 +3,14 @@ YELP DATA ANALYSIS
 
 Q1: Analyze the basic statistics of your dataset
 ----------------------------------------------------------------------
-   label                                               text  cuisine  price_range sentiment
-0      0  First of all i'm not a big fan of buffet, i tr...  Unknown          1.0  negative
-1      2  Stamoolis Brothers is one of the Strip Distric...    Greek          1.0   neutral
-2      1  So I have been to Hickory Tavern many many tim...  Unknown          1.0  negative
-3      0  On 28 June 2013 I checked into the Riviera Hot...  Unknown          1.0  negative
-4      2  Happy hour is great here at this restaurant......  Unknown          1.0   neutral
+   label  ... sentiment
+0      0  ...  negative
+1      2  ...   neutral
+2      1  ...  negative
+3      0  ...  negative
+4      2  ...   neutral
+
+[5 rows x 5 columns]
 
 Label distribution:
 label
@@ -20,18 +22,20 @@ label
 Name: count, dtype: int64
 
 Basic statistics:
-             label                                               text  cuisine  price_range sentiment
-count   267.000000                                                267      267   267.000000       267
-unique         NaN                                                267       10          NaN         3
-top            NaN  First of all i'm not a big fan of buffet, i tr...  Unknown          NaN  negative
-freq           NaN                                                  1      167          NaN       127
-mean      1.775281                                                NaN      NaN     1.235955       NaN
-std       1.301412                                                NaN      NaN     0.655041       NaN
-min       0.000000                                                NaN      NaN     1.000000       NaN
-25%       1.000000                                                NaN      NaN     1.000000       NaN
-50%       2.000000                                                NaN      NaN     1.000000       NaN
-75%       3.000000                                                NaN      NaN     1.000000       NaN
-max       4.000000                                                NaN      NaN     4.000000       NaN
+             label  ... sentiment
+count   267.000000  ...       267
+unique         NaN  ...         3
+top            NaN  ...  negative
+freq           NaN  ...       127
+mean      1.775281  ...       NaN
+std       1.301412  ...       NaN
+min       0.000000  ...       NaN
+25%       1.000000  ...       NaN
+50%       2.000000  ...       NaN
+75%       3.000000  ...       NaN
+max       4.000000  ...       NaN
+
+[11 rows x 5 columns]
 
 Q2: Analyze the data structure
 ----------------------------------------------------------------------

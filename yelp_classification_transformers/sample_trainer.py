@@ -14,7 +14,7 @@ with console.status("[bold cyan]Importing PyTorch dataset libary...", spinner="d
 #Error handling is handled in the helper.py file
 
 def tokenizer(frame):
-    with console.status("[bold cyan]Loading transformers...", spinner="dots"):
+    with console.status("[bold cyan]Loading transformers...", spinner="dots" ):
         from transformers import AutoTokenizer
     tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
     tokenizer.save_pretrained(".\\yelp_price_model")
