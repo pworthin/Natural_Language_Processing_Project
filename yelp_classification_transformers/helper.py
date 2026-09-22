@@ -7,18 +7,7 @@ import traceback
 import os
 import signal
 
-
-try:
-    from huggingface_hub.utils import disable_progress_bars
-    from huggingface_hub import logging as hf_logging
-except ModuleNotFoundError:
-    disable_progress_bars = None
-    hf_logging = None
-
-try:
-    from datasets import logging
-except ModuleNotFoundError:
-    logging = None
+rich = require("rich")
 
 from rich.console import Console
 
@@ -54,20 +43,11 @@ def progress(**kwargs):
 
 
 
-## ---- Hugging Face Options ---- ##
-
-
-
-def hf_silence(): #This silences Hugging Face log messages
-    if hf_logging is not None:
-        hf_logging.set_verbosity_error()
-
-    if disable_progress_bars is not None:
-        disable_progress_bars()
-
 
 ## -------------Console Message Handling-----------------------##
 
+def mod_not_found(mod):
+    console.print(f"[red]ERROR[/red]: [orange1]{mod} was not found. Check the requirements.txt to be sure it has been included[/orange1]")
 
 def error_msg(e):
     console.print(f"[red]Error:[/red] [orange1]{e}[/orange1]")
@@ -94,6 +74,35 @@ def sigint_handler(signum, frame):
 def terminate_signal():
     signal.signal(signal.SIGINT, sigint_handler)
 
+def hf_silence(): #This silences Hugging Face log messages
+
+    try:
+        from huggingface_hub.utils import disable_progress_bars
+        from huggingface_hub import logging as hf_logging
+    except ModuleNotFoundError:
+        disable_progress_bars = None #If these modules are not necessary for the project, they are ignored
+        hf_logging = None
+        mod_not_found("Hugging Face")
+        
+
+    if hf_logging is not None:
+        hf_logging.set_verbosity_error()
+
+    if disable_progress_bars is not None:
+        disable_progress_bars()
+
+def ds_logger_silence():
+    try:
+        from datasets import logging
+    except ModuleNotFoundError:
+        logging = None
+        mod_not_found("Datasets")
+    if logging is not None:
+        logging.set_verbosity_error()
+
+
+  ############ Silencing interface ##################
+
 def silencer(*args):
     for arg in args:
         match arg:
@@ -118,3 +127,31 @@ def execute(func):
         raise SystemExit(0)
     except Exception as e:
         error_msg(e)
+
+
+#-------Module Check--------#
+
+#This ensures mandatory libaries such as Rich are already installed in any case
+
+
+def require(module, package=None):
+    import importlib
+    import subprocess
+
+    package = package or module
+
+    try:
+        return importlib.import_module(module)
+
+    except ModuleNotFoundError:
+        print(f"[!] Missing '{module}'. Installing...")
+
+        subprocess.check_call([
+            sys.executable,
+            "-m",
+            "pip",
+            "install",
+            package
+        ])
+
+        return importlib.import_module(module)
