@@ -3,110 +3,96 @@ YELP DATA ANALYSIS
 
 Q1: Analyze the basic statistics of your dataset
 ----------------------------------------------------------------------
-   label  ... sentiment
-0      0  ...  negative
-1      2  ...   neutral
-2      1  ...  negative
-3      0  ...  negative
-4      2  ...   neutral
-
-[5 rows x 5 columns]
+   label                                               text sentiment   cuisine price_range
+0      4  dr. goldberg offers everything i look for in a...  positive  American           $
+1      1  Unfortunately, the frustration of being Dr. Go...  negative   Italian           $
+2      3  Been going to Dr. Goldberg for over 10 years. ...  positive   Italian          $$
+3      3  Got a letter in the mail last week that said D...  positive   Chinese           $
+4      0  I don't know what Dr. Goldberg was like before...  negative   Chinese        $$$$
 
 Label distribution:
 label
-0    50
-1    77
-2    58
-3    47
-4    35
+0    130000
+1    130000
+2    130000
+3    130000
+4    130000
 Name: count, dtype: int64
 
 Basic statistics:
-             label  ... sentiment
-count   267.000000  ...       267
-unique         NaN  ...         3
-top            NaN  ...  negative
-freq           NaN  ...       127
-mean      1.775281  ...       NaN
-std       1.301412  ...       NaN
-min       0.000000  ...       NaN
-25%       1.000000  ...       NaN
-50%       2.000000  ...       NaN
-75%       3.000000  ...       NaN
-max       4.000000  ...       NaN
-
-[11 rows x 5 columns]
+                label                                               text sentiment  cuisine price_range
+count   650000.000000                                             650000    650000   650000      650000
+unique            NaN                                             650000         3        5           4
+top               NaN  dr. goldberg offers everything i look for in a...  positive  Italian          $$
+freq              NaN                                                  1    260000   130275      162816
+mean         2.000000                                                NaN       NaN      NaN         NaN
+std          1.414215                                                NaN       NaN      NaN         NaN
+min          0.000000                                                NaN       NaN      NaN         NaN
+25%          1.000000                                                NaN       NaN      NaN         NaN
+50%          2.000000                                                NaN       NaN      NaN         NaN
+75%          3.000000                                                NaN       NaN      NaN         NaN
+max          4.000000                                                NaN       NaN      NaN         NaN
 
 Q2: Analyze the data structure
 ----------------------------------------------------------------------
 <class 'pandas.DataFrame'>
-RangeIndex: 267 entries, 0 to 266
+RangeIndex: 650000 entries, 0 to 649999
 Data columns (total 5 columns):
- #   Column       Non-Null Count  Dtype  
----  ------       --------------  -----  
- 0   label        267 non-null    int64  
- 1   text         267 non-null    str    
- 2   cuisine      267 non-null    str    
- 3   price_range  267 non-null    float64
- 4   sentiment    267 non-null    str    
-dtypes: float64(1), int64(1), str(3)
-memory usage: 308.6 KB
+ #   Column       Non-Null Count   Dtype
+---  ------       --------------   -----
+ 0   label        650000 non-null  int64
+ 1   text         650000 non-null  str  
+ 2   sentiment    650000 non-null  str  
+ 3   cuisine      650000 non-null  str  
+ 4   price_range  650000 non-null  str  
+dtypes: int64(1), str(4)
+memory usage: 489.6 MB
 
 
 Q3: Create a pie chart of the sentiment distribution
 ----------------------------------------------------------------------
 sentiment
-negative    127
-positive     82
-neutral      58
+positive    260000
+negative    260000
+neutral     130000
 Name: count, dtype: int64
 
 Percentages:
 sentiment
-negative    47.57
-positive    30.71
-neutral     21.72
+positive    40.0
+negative    40.0
+neutral     20.0
 Name: proportion, dtype: float64
 
 Q4: Analyze sentiment patterns across different cuisines
 ----------------------------------------------------------------------
-sentiment      negative  neutral  positive
-cuisine                                   
-American          52.17    17.39     30.43
-Chinese           30.77    30.77     38.46
-Greek             50.00    50.00      0.00
-Indian            16.67     0.00     83.33
-Italian           50.00    22.22     27.78
-Japanese          31.25    18.75     50.00
-Mediterranean     25.00     0.00     75.00
-Mexican           43.75    43.75     12.50
-Thai               0.00   100.00      0.00
-Unknown           52.10    19.76     28.14
+sentiment  negative  neutral  positive
+cuisine                               
+American      39.91    20.05     40.04
+Chinese       40.00    20.05     39.96
+Indian        39.80    19.94     40.26
+Italian       40.02    20.11     39.87
+Mexican       40.27    19.86     39.87
 
 Q5: Analyze sentiment patterns across price ranges
 ----------------------------------------------------------------------
 sentiment    negative  neutral  positive
 price_range                             
-1.0             49.79    20.43     29.79
-2.0              0.00    33.33     66.67
-3.0             37.04    33.33     29.63
-4.0              0.00     0.00    100.00
+$               40.10    19.91     39.99
+$$              40.04    19.92     40.04
+$$$             39.85    20.13     40.02
+$$$$            40.01    20.05     39.94
 
 Q7: Analyze the relationship between cuisine types and price ranges using a heatmap
 ----------------------------------------------------------------------
-price_range       1.0  2.0    3.0   4.0
+price_range      $     $$    $$$   $$$$
 cuisine                                
-American        95.65  0.0   4.35  0.00
-Chinese        100.00  0.0   0.00  0.00
-Greek           50.00  0.0  50.00  0.00
-Indian         100.00  0.0   0.00  0.00
-Italian         94.44  0.0   5.56  0.00
-Japanese        81.25  0.0  12.50  6.25
-Mediterranean   75.00  0.0  25.00  0.00
-Mexican         93.75  0.0   6.25  0.00
-Thai           100.00  0.0   0.00  0.00
-Unknown         85.63  1.8  11.98  0.60
+American     24.86  25.09  25.26  24.79
+Chinese      25.22  24.94  24.83  25.01
+Indian       25.07  24.97  25.07  24.88
+Italian      24.86  25.18  25.07  24.89
+Mexican      24.87  25.06  24.98  25.10
 
 Q8: Summary
 ----------------------------------------------------------------------
-The dataset contains 267 reviews. The label distribution, sentiment distribution, cuisine/sentiment comparison, price/sentiment comparison, and cuisine/price relationship are shown above.
+The dataset contains 650,000 reviews. The label distribution, sentiment distribution, cuisine/sentiment comparison, price/sentiment comparison, and cuisine/price relationship are shown above.

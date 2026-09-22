@@ -130,6 +130,11 @@ def analysis_report(frame, output_file="analysis_report.txt", show_plots=True):
         stacked=True,
         title="Sentiment Distribution by Price Range",
     )
+    plt.xticks(
+    range(len(price_sentiment.index)),
+    [r"\$" * len(price) for price in price_sentiment.index],
+    rotation=0
+)
     plt.ylabel("Percentage")
     plt.xlabel("Price Range")
     plt.xticks(rotation=0)
@@ -139,7 +144,7 @@ def analysis_report(frame, output_file="analysis_report.txt", show_plots=True):
     else:
         plt.close()
 
-    # The original PDF jumps from Q5 to Q7, so this keeps the same numbering.
+    
 
     # Q7
     report_print(
@@ -150,8 +155,18 @@ def analysis_report(frame, output_file="analysis_report.txt", show_plots=True):
     cuisine_price = _percent_table(df, "cuisine", "price_range")
     report_print(cuisine_price.round(2))
 
+    price_labels = [r"\$" * len(price) for price in cuisine_price.columns]
+
     plt.figure(figsize=(8, 6))
-    sns.heatmap(cuisine_price, annot=True, fmt=".1f", cmap="YlGnBu")
+
+    sns.heatmap(
+        cuisine_price,
+        annot=True,
+        fmt=".1f",
+        cmap="YlGnBu",
+        xticklabels=price_labels
+    )
+
     plt.title("Cuisine Type vs. Price Range")
     plt.xlabel("Price Range")
     plt.ylabel("Cuisine")
@@ -176,6 +191,5 @@ def analysis_report(frame, output_file="analysis_report.txt", show_plots=True):
 
     print(f"\n[✓] Report written to {output_file}")
 
-def main():
-    frame = pd.read_csv("samples_cleaned.csv")
+def main(frame):
     analysis_report(frame)

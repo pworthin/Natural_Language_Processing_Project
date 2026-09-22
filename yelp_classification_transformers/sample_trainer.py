@@ -13,13 +13,14 @@ with console.status("[bold cyan]Importing PyTorch dataset libary...", spinner="d
 
 #Error handling is handled in the helper.py file
 
-def tokenizer(frame):
+def tokenizer(frame, output_dir, target_column):
     with console.status("[bold cyan]Loading transformers...", spinner="dots" ):
         from transformers import AutoTokenizer
     tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
-    tokenizer.save_pretrained(".\\yelp_price_model")
+    tokenizer.save_pretrained(output_dir)
 
-    print("Model and tokenizer saved to .\\yelp_price_model")
+    print(f"Tokenizer saved to {output_dir}")
+
     tokens = tokenizer(
         frame["text"].tolist(),
         padding=True,
@@ -27,7 +28,7 @@ def tokenizer(frame):
         return_tensors="pt"
     )
 
-    labels = torch.tensor(frame["price_label"].tolist())
+    labels = torch.tensor(frame[target_column].tolist())
     return tokens, labels
 
     
@@ -49,21 +50,21 @@ class YelpDataset(Dataset):
         }
 
 
-def ds_obj(tokens, labels):
+def ds_obj(tokens, labels, num_labels):
     
     train_dataset = YelpDataset(tokens, labels)
     with console.status("[bold cyan]Creating model for sequence classification...", spinner="dots"):
         from transformers import AutoModelForSequenceClassification
     model = AutoModelForSequenceClassification.from_pretrained(
         "distilbert-base-uncased",
-        num_labels=4
+        num_labels=num_labels
     )
     return model, train_dataset
 
     
 
 
-def model_trainer(model, train_dataset):
+def model_trainer(model, train_dataset, output_dir):
 
     with console.status("[bold cyan]Preparing Trainer...", spinner="dots"):
         from transformers import TrainingArguments, Trainer
@@ -73,7 +74,7 @@ def model_trainer(model, train_dataset):
     else:
         print("CUDA not available. Training on CPU")
     training_args = TrainingArguments(
-        output_dir=".\\yelp_price_model",
+        output_dir=output_dir,
         num_train_epochs=3,
         per_device_train_batch_size=8,
         per_device_eval_batch_size=8,
@@ -92,5 +93,5 @@ def model_trainer(model, train_dataset):
     )
 
     trainer.train()
-    model.save_pretrained(".\yelp_price_model")
+    model.save_pretrained(output_dir)
     

@@ -6,16 +6,15 @@ This driver uses the existing project files rather than duplicating their code.
 from helper import execute, terminate_signal
 terminate_signal()
 import yelp
-import model_build
+#import model_build
 import report
 
 
 def main():
-    yelp.main()
 
-    report.main()
-
-    model_build.main()
+    frame = yelp.main()
+    report.main(frame)
+    print("\nAnalysis completed.")
 
 
 if __name__ == "__main__":
