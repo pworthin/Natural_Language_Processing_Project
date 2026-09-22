@@ -1,7 +1,7 @@
 from helper import(
     console,
     progress,
-    hf_silence,
+    silencer,
     execute,
     terminate_signal
    
@@ -15,16 +15,12 @@ import requests
 from sklearn.preprocessing import LabelEncoder
 
 with console.status("[bold cyan]Loading datasets...", spinner="dots"):
-    from datasets import load_dataset, logging
+    from datasets import load_dataset
 
 
-
-
-
-logging.set_verbosity_error() #This is to quiet all the console chattering when the dataset
+silencer("ds_logger", "hf")#This is to quiet all the console chattering when the dataset
                               #is being loaded
 
-hf_silence() #Same thing with Hugging Face logging messages
 
 def data_prep():
     try:

@@ -1,9 +1,6 @@
 
 from helper import console
 
-with console.status("[bold cyan]Loading transformers...", spinner="dots"):
-    from transformers import AutoTokenizer, AutoModelForSequenceClassification
-
 with console.status("[bold cyan]Loading PyTorch...", spinner="dots"):
     import torch
 
@@ -17,7 +14,8 @@ with console.status("[bold cyan]Importing PyTorch dataset libary...", spinner="d
 #Error handling is handled in the helper.py file
 
 def tokenizer(frame):
-    
+    with console.status("[bold cyan]Loading transformers...", spinner="dots"):
+        from transformers import AutoTokenizer
     tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
     tokenizer.save_pretrained(".\\yelp_price_model")
 
@@ -54,6 +52,8 @@ class YelpDataset(Dataset):
 def ds_obj(tokens, labels):
     
     train_dataset = YelpDataset(tokens, labels)
+    with console.status("[bold cyan]Creating model for sequence classification...", spinner="dots"):
+        from transformers import AutoModelForSequenceClassification
     model = AutoModelForSequenceClassification.from_pretrained(
         "distilbert-base-uncased",
         num_labels=4

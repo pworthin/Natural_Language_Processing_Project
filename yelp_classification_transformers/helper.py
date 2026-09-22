@@ -6,9 +6,19 @@ import sys
 import traceback
 import os
 import signal
-from huggingface_hub.utils import disable_progress_bars
-from huggingface_hub import logging as hf_logging
 
+
+try:
+    from huggingface_hub.utils import disable_progress_bars
+    from huggingface_hub import logging as hf_logging
+except ModuleNotFoundError:
+    disable_progress_bars = None
+    hf_logging = None
+
+try:
+    from datasets import logging
+except ModuleNotFoundError:
+    logging = None
 
 from rich.console import Console
 
@@ -47,12 +57,16 @@ def progress(**kwargs):
 ## ---- Hugging Face Options ---- ##
 
 
+
 def hf_silence(): #This silences Hugging Face log messages
-    hf_logging.set_verbosity_error()
-    disable_progress_bars()
+    if hf_logging is not None:
+        hf_logging.set_verbosity_error()
+
+    if disable_progress_bars is not None:
+        disable_progress_bars()
 
 
-## -------------------------------##
+## -------------Console Message Handling-----------------------##
 
 
 def error_msg(e):
@@ -80,9 +94,22 @@ def sigint_handler(signum, frame):
 def terminate_signal():
     signal.signal(signal.SIGINT, sigint_handler)
 
+def silencer(*args):
+    for arg in args:
+        match arg:
+            case "hf":
+                hf_silence()
+            case "ds_logger":
+                if logging is not None:
+                    logging.set_verbosity_error()
+            case "console":
+                silence() #Remember to restore_sanity()!
+
+
 #########################################################
 
 
+#----- Main executor function module --------------#
 def execute(func):
     try:
         func()
