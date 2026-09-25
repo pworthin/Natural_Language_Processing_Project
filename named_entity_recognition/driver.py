@@ -1,9 +1,7 @@
 
-from helper import execute, terminate_signal
-import sys
-print(f"Running Python: {sys.executable}")
-
+from helper import execute, terminate_signal, console
 terminate_signal()
+console.status("[bold cyan]Loading program. Please wait...", spinner="dots")
 
 import spacy
 import pandas as pd
@@ -311,15 +309,16 @@ def data_analysis(data):
 
 def main():
     
-           
-        '''model = spacy.load('en_core_web_sm')
-        if not model:
-            raise RuntimeError("No model detected!")
+        with console.status("[bold cyan]Loading model...", spinner="dots"):
+            
+            model = spacy.load('en_core_web_sm')
+            if not model:
+                raise RuntimeError("No model detected!")
         
        
         
         model_setup(model)
-        input("Press Enter to close the graphs...")'''
+        input("Press Enter to close the graphs...")
         
     
 
