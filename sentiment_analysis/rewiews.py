@@ -1,26 +1,13 @@
 from helper import execute, terminate_signal,console
 terminate_signal() 
 console.status("[orange1]Loading program. Please wait...", spinner="dots")
-import numpy       
+      
 import pandas as pd       
-         
-       
+    
 import sys
 
-import re
-import random
-
-
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-from sklearn.model_selection import train_test_split
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import accuracy_score as ac_score
-from sklearn.metrics import classification_report as summary_rep
-from sklearn.svm import LinearSVC
-
-
-
-tokenizer = lambda text: re.findall(r'\b\w\w+\b', text)
+#import re
+#tokenizer = lambda text: re.findall(r'\b\w\w+\b', text)
 
 #########################################################
 
@@ -50,7 +37,8 @@ def obj_eval(obj):
 
 def text_prep(text):
     #This prepares the raw data for processing
-    
+    import random
+
     documents = [(list(text.words(fileid)), category)
         for category in text.categories()
         for fileid in text.fileids(category)]
@@ -89,31 +77,34 @@ class NLPmodel():
 
     def data_display(self, label, y_test, y_pred, accuracy):
 
-    
+        from sklearn.metrics import classification_report as summary_rep
+
         print(f"\nResults for {label}\n")
         print(summary_rep(y_test, y_pred), f"\n\nAccurary Score: {accuracy}%") 
         
 
     def modelsetup(self):
+        from sklearn.model_selection import train_test_split
         
-            # Pull out only the test split params
-            split_params = {
-                key: self.params.pop(key) 
-                for key in ["test_size", "random_state"] 
-                if key in self.params
-            }
-            df = self.frameset()
-                        
-            x_train, x_test, y_train, y_test = train_test_split(
-                df['review'], df['sentiment'], **split_params
-            ) 
+        # Pull out only the test split params
+        split_params = {
+            key: self.params.pop(key) 
+            for key in ["test_size", "random_state"] 
+            if key in self.params
+        }
+        df = self.frameset()
+                    
+        x_train, x_test, y_train, y_test = train_test_split(
+            df['review'], df['sentiment'], **split_params
+        ) 
 
-            return x_train, x_test, y_train, y_test, df
+        return x_train, x_test, y_train, y_test, df
         
         
 
     def classifier_setup(self):
-        
+        from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+        from sklearn.naive_bayes import MultinomialNB
 
         #This is a dictionary to map out the different vectorizers. It is more
         #efficient then creating multiple vectorizer objects. The key is the vector type
@@ -124,7 +115,9 @@ class NLPmodel():
         if self.vec_type not in vectorizer_map:
                     raise ValueError(f"Error: Unknown vector type: {self.vec_type}")
 
-        #This same goes for the diffent models used in the assignment
+        #This same goes for the diffent models used in the lectures
+
+        from sklearn.svm import LinearSVC
         model_map = {"svm":(LinearSVC(class_weight='balanced'), " with SVC classifier"),
                         "nb":(MultinomialNB(), " with Naive Bayes classifier")}
 
@@ -164,9 +157,9 @@ class NLPmodel():
     
     
     def classifier(self):
-        
-        
-        
+                
+        from sklearn.metrics import accuracy_score as ac_score
+
         x_train, x_test, y_train, y_test, df = self.modelsetup()            #This obtains the split training and testing values to set up the model               
         
         VectorizerClass, vec_label, model, model_label = self.classifier_setup() #This calls the function that contains a defining dictionary of keys and paramters                                                                                                                          
@@ -194,8 +187,8 @@ def main():
             print("Error: No dataset found. Terminating program")
             sys.exit(0)
 
-    
-    arranged_text = text_prep(movie_reviews)
+    with console.status("[bold cyan]Reading, tokenizing, and preparing 2,000 movie reviews...", spinner="dots"):
+        arranged_text = text_prep(movie_reviews)
     
     #Here we have the different parameters for the vectorizers
     vectorizer_configs = {
