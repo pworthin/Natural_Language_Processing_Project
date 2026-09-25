@@ -10,6 +10,6 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 
 echo Running program...
-python driver.py
+python reviews.py
 
 pause
