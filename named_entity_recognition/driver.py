@@ -59,7 +59,7 @@ def graph_setup(ent_total, case):
         
         
         plt.figure(figsize=params["figsize"])
-        ax = sns.barplot(x=ent_total.index, y=ent_total.values, width=params["bar_width"])  
+        ax = sns.barplot(x=ent_total.index, y=ent_total.values,  width=params["bar_width"])  
 
         # y-axis ticks every y_step
         ymax = int(ent_total.max())
